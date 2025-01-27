@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+        <style>
+            .main-container{
+                text-align: center;
+                padding: 15px;
+                font-family: "Roboto";
+            }
+            .main-heading{
+                font-family: "Roboto";
+                text-align: center;
+            }
+            
+            .user-card{
+                background-color:azure;
+                padding: 15px;
+                margin-top: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .user-details-div{
+                text-align: left;
+            }
+            .button{
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                display: inline-block;
+                margin-left: 10px;
+                font-size: 16px;
+                font-family: "Roboto", sans-serif; /* Ensure the Roboto font is applied */
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+        </style>
+    </head>
+    <body>
+        <div class = "main-container" id = "main_container">
+            <h1 class = "main-heading">User Management</h1>
+        </div>
+    </body> 
+    <script>
+        let mainContainerEle = document.getElementById("main_container");
+        function createAppendUserCard(userDetails){
+
+            let cardDiv = document.createElement("div");
+            cardDiv.classList.add("user-card");
+
+            let userDetailsDiv = document.createElement("div");
+            userDetailsDiv.classList.add("user-details-div");
+            cardDiv.appendChild(userDetailsDiv);
+
+            let id = document.createElement("p");
+            id.textContent = "Id : "+userDetails.id;
+            userDetailsDiv.appendChild(id);
+
+            let firstName = document.createElement("p");
+            firstName.textContent ="First Name : "+userDetails.firstName;
+            userDetailsDiv.appendChild(firstName);
+
+            let lastName = document.createElement("p");
+            lastName.textContent = "Last Name : "+ userDetails.lastName;
+            userDetailsDiv.appendChild(lastName);
+
+            let email = document.createElement("p");
+            email.textContent = "Email : "+ userDetails.email;
+            userDetailsDiv.appendChild(email);
+
+            let department = document.createElement("p");
+            department.textContent = "Department : "+ userDetails.department;
+            userDetailsDiv.appendChild(department);
+
+            let buttonsDiv = document.createElement("div");
+
+            let editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.classList.add("button");
+            editButton.addEventListener("click", () => openEditForm(userDetails));
+            buttonsDiv.appendChild(editButton);
+
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.classList.add("button");
+            deleteButton.addEventListener("click", ()=> openDeletePage(userDetails));
+            buttonsDiv.appendChild(deleteButton);
+
+            cardDiv.appendChild(buttonsDiv);
+
+            mainContainerEle.appendChild(cardDiv);
+        }
+
+
+        function openEditForm(userDetails){
+            localStorage.setItem("editUser", JSON.stringify(userDetails));
+            console.log(JSON.stringify(userDetails));
+            window.location.href = 'editForm.html'
+        }
+
+        function openDeletePage(userDetails){
+            localStorage.setItem("deleteUser", JSON.stringify(userDetails));
+            window.location.href = "deleteForm.html";
+        }
+
+        fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+       .then(data => {
+        console.log(data);
+        const users = data.map(user => ({
+        id: user.id,
+        firstName: user.name.split(' ')[0],
+        lastName: user.name.split(' ')[1],
+        email: user.email,
+        department: 'Software'
+        }));
+        users.forEach(userDetails => {
+            createAppendUserCard(userDetails);
+        });
+    })
+    .catch(error => {
+            console.error('Error fetching users:', error)
+            window.location.href = 'error.html';
+    }
+);
+
+        let addButton = document.createElement("button");
+        addButton.textContent = "Add User";
+        addButton.classList.add("button");
+        addButton.addEventListener("click", () => {
+            window.location.href = 'addUser.html';
+        });
+        mainContainerEle.appendChild(addButton);
+
+    </script>
+</html>

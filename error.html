@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Page</title>
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .error-container {
+            text-align: center;
+            background: #f5c6cb;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .error-container h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .error-container p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .error-container button {
+            background-color: #721c24;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .error-container button:hover {
+            background-color: #5a161c;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Error Occurred</h1>
+        <p>Something went wrong while fetching data. Please try again later.</p>
+        <button onclick="refresh()">Refresh</button>
+    </div>
+
+    <script>
+        function refresh() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

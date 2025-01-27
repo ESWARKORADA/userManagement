@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .form-container {
+            margin: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h3>Edit User</h3>
+        <form id="edit_form">
+            <input type="hidden" id="user_id">
+            <div>
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" required>
+            </div>
+            <div>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+            </div>
+            <div>
+                <label for="department">Department:</label>
+                <input type="text" id="department" required>
+            </div>
+            <button type="submit">Save</button>
+            <button type="button" onclick="goBack()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = "index.html";
+        }
+
+        const userDetails = JSON.parse(localStorage.getItem("editUser"));
+
+        document.getElementById("user_id").value = userDetails.id;
+        document.getElementById("first_name").value = userDetails.firstName;
+        document.getElementById("last_name").value = userDetails.lastName;
+        document.getElementById("email").value = userDetails.email;
+        document.getElementById("department").value = userDetails.department;
+
+        document.getElementById("edit_form").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const updatedUser = {
+                id: document.getElementById("user_id").value,
+                firstName: document.getElementById("first_name").value,
+                lastName: document.getElementById("last_name").value,
+                email: document.getElementById("email").value,
+                department: document.getElementById("department").value
+            };
+
+            fetch(`https://jsonplaceholder.typicode.com/users/${updatedUser.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedUser)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("User details updated successfully!");
+                goBack();
+            })
+            .catch(error =>{
+                alert("Not updated");
+                goBack();
+            } );
+        });
+    </script>
+</body>
+</html>
